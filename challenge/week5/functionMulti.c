@@ -1,24 +1,25 @@
 #include <stdio.h>
 
-long multif(long value); //곱 long 정수형받기
+long sum(long value); // 합을 계산하는 함수
 
-void main()
+int main(void)
 {
-	printf("1부터 2까지의 곱은 %d\n", multif(2)); //1부터 2까지 곱
-	printf("1부터 3까지의 곱은 %d\n", multif(3)); //1부터 3까지 곱
-	printf("1부터 5까지의 곱은 %d\n", multif(5)); //1부터 5까지 곱
+    printf("1부터 2까지의 합은 %ld\n", sum(2));
+    printf("1부터 3까지의 합은 %ld\n", sum(3));
+    printf("1부터 5까지의 합은 %ld\n", sum(5));
+
+    return 0;
 }
 
-long multif(long value)
+long sum(long value)
 {
-	long i; //i는 1부터 시작
-	long multi = 0; //합은 0부터 시작
+    long i; // i는 1부터 시작
+    long sum = 0; // 합은 0부터 시작
 
-	for (i = 1; i <= value; i = i + 1) //i가 value가 될 때 까지 반복 
-	{
-		multi = multi + i; // 하고 곱은 곱+ i만큼 증가 
-		i++; //i는 1만큼 계속 증가 
-	}
+    for (i = 1; i <= value; i++) // i가 value가 될 때까지 반복
+    {
+        sum = sum + i; // 합은 sum + i만큼 증가
+    }
 
-	return multi; //반환 
+    return sum; // 합을 반환
 }

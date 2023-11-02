@@ -27,10 +27,29 @@ void classifyStudents(int scores[], char targetGrade) { //정수형 점수 문자형 성�
 	}
 }
 int sumScores(int scores[]) {
-
+	int sum = 0; 
+	for (int i = 0; i < STUDENTS; i++) {
+		sum += scores[i];
+	}
+	return sum;
 }
-double averageScores(int scores[])
-void printRanks(int scores[])
+double averageScores(int scores[]) {
+	int sum = sumScores(scores);
+	double average = (double)sum / (double)STUDENTS;
+	return average;
+}
+void printRanks(int scores[]) {
+	int ranks[STUDENTS];
+	for (int i = 0;  i < STUDENTS; i++) {
+		ranks[i] = 1;
+		for (int j = 0; j < STUDENTS; j++) {
+			if (scores[j] > scores[i]) {
+				ranks[i]++;
+			}
+		}
+		printf("%d 학생의 순위는 %d 입니다. \n", i, ranks[i]);
+	}
+}
 
 int main() {
 	//학생들의 성적을 저장할 배열 선언하기 

@@ -1,10 +1,18 @@
-int main(void) {
-	int i = 0; //i ì— 0 ëŒ€ì…
-	while (i < 10) {//iê°€ 10ì´ ë ë™ì•ˆ ë£¨í”„ ì‹¤í–‰
-		if (i % 2 == 0){ //i ë‚˜ëˆ„ê¸° 2ê°€ 0ì´ë©´ ê³„ì†í•˜ê¸°
-			continue;
-		}
-		printf("%d Hello World!\n", i++); //í”„ë¦°íŠ¸í•˜ê³  iì— 1ì¶”ê°€
-	}
-	return 0;
+#include <stdio.h>
+
+int main()
+{
+    int i = 0;
+
+    do {
+        // i°¡ Â¦¼öÀÌ¸é ¹İº¹¹® Ã³À½À¸·Î µ¹¾Æ°¡±â
+        if (i % 2 == 0) {
+            i++;
+            continue;
+        }
+        printf("%d Hello World!\n", i);
+        i++;
+    } while (i < 10);
+
+    return 0;
 }
