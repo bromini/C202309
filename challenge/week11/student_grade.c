@@ -1,88 +1,80 @@
 #include <stdio.h>
+#define STUDENTS 5
+#define SUBJECTS 3
+#define CHARNUM 20
 
-#define STUDENTS 5 // 학생 5명으로 정의
+// 학생 별 평균 점수를 계산하고 출력하는 함수
+void printStudentAverage(double studentScores[STUDENTS][SUBJECTS], char studentNames[STUDENTS][CHARNUM]) {
+    printf("--------------------\n");
+    printf("학생 별 성적은 다음과 같습니다 \n");
 
-void classifyStudents(int* scores, char targetGrade) {
-    printf("학생 성적 분류: \n");
-    char grade = ' ';
     for (int i = 0; i < STUDENTS; i++) {
-        // 포인터를 이용하여 성적에 따라 학점 부여
-        if (*(scores + i) >= 90) {
-            grade = 'A';
+        double totalScore = 0.0;
+        for (int j = 0; j < SUBJECTS; j++) {
+            totalScore += studentScores[i][j];
         }
-        else if (*(scores + i) >= 80) {
-            grade = 'B';
-        }
-        else if (*(scores + i) >= 70) {
-            grade = 'C';
-        }
-        else if (*(scores + i) >= 60) {
-            grade = 'D';
-        }
-        else {
-            grade = 'F';
-        }
-
-        // 사용자가 입력한 특정 성적을 가진 학생을 출력
-        if (targetGrade == grade) {
-            printf("%d 학생은 %c 점수를 받았습니다\n", i + 1, targetGrade);
-        }
+        double finalScore = totalScore / SUBJECTS;
+        printf("\t%s의 평균 점수: %.2lf\n", studentNames[i], finalScore);
     }
 }
 
-int sumScores(int* scores) {
-    int sum = 0;
-    for (int i = 0; i < STUDENTS; i++) {
-        // 포인터를 이용하여 성적을 더함
-        sum += *(scores + i);
-    }
-    return sum;
-}
+// 과목 별 평균 점수를 계산하고 출력하는 함수
+void printSubjectAverage(double studentScores[STUDENTS][SUBJECTS], char subjectNames[SUBJECTS][CHARNUM]) {
+    printf("--------------------\n");
+    printf("과목 별 평균 점수는 아래와 같습니다. \n");
 
-double averageScores(int* scores) {
-    int sum = sumScores(scores);
-    double average = (double)sum / (double)STUDENTS;
-    return average;
-}
-
-void printRanks(int* scores) {
-    int ranks[STUDENTS];
-    for (int i = 0; i < STUDENTS; i++) {
-        ranks[i] = 1;
+    for (int i = 0; i < SUBJECTS; i++) {
+        double subjectScore = 0.0;
         for (int j = 0; j < STUDENTS; j++) {
-            
-            if (*(scores + j) > *(scores + i)) {
-                ranks[i]++;
-            }
+            subjectScore += studentScores[j][i];
         }
-        
-        printf("%d 학생의 순위는 %d 입니다. \n", i + 1, ranks[i]);
+        double avgSubjectScore = subjectScore / STUDENTS;
+        printf("\t%s의 평균 점수는 %.2lf 입니다.\n", subjectNames[i], avgSubjectScore);
     }
 }
 
 int main() {
-    // 학생들의 성적을 저장할 배열 선언하기
-    int scores[STUDENTS];
+    // 학생 및 과목 정보를 저장하는 배열들
+    char subjectNames[SUBJECTS][CHARNUM] = { "퀴즈", "중간고사", "기말고사" };
+    char studentNames[STUDENTS][CHARNUM] = { "" };
+    double studentScores[STUDENTS][SUBJECTS] = { 0.0 };
 
-    // 학생들의 성적 입력 받기
+    // 학생 이름 입력 받기
+    printf("학생 %d명의 이름의 입력을 시작합니다. \n", STUDENTS);
     for (int i = 0; i < STUDENTS; i++) {
-        printf("학생 %d의 성적을 입력하세요: ", i + 1);
-        scanf_s("%d", &scores[i]);
+        printf("%d번째 학생의 이름을 입력하세요: ", i + 1);
+        scanf_s("%s", studentNames[i], (int)sizeof(studentNames[i]));
     }
 
-    char ch = getchar(); // 버퍼 임시 저장 변수, 엔터 지우기 위해서
+    // 입력된 학생 이름 출력
+    printf("학생 이름이 모두 입력되었습니다. \n");
+    printf("입력된 학생 이름은 다음과 같습니다. \n");
+    for (int i = 0; i < STUDENTS; i++) {
+        printf("%s", studentNames[i]);
+        if (i != STUDENTS - 1) {
+            printf(", ");
+        }
+    }
+    printf("\n");
+    printf("--------------------\n");
 
-    char target;
-    printf("특정 점수 (A, B, C, D, F)를 입력하시오: ");
-    scanf_s(" %c", &target, 1); // 학생들의 성적 분류 및 출력
+    // 각 학생의 시험 점수 입력 받기
+    printf("각 학생의 %s, %s, %s 점수를 차례대로 입력해주세요. (띄어쓰기 구분)\n ", subjectNames[0], subjectNames[1], subjectNames[2]);
+    for (int i = 0; i < STUDENTS; i++) {
+        printf("%s의 성적:", studentNames[i]);
+        for (int j = 0; j < SUBJECTS; j++) {
+            scanf_s("%lf", &studentScores[i][j]);
+        }
+    }
 
-    classifyStudents(scores, target);
+    printf("학생들의 시험 점수가 모두 입력 되었습니다.\n");
 
-    int sum = sumScores(scores);
-    double average = averageScores(scores);
-    printf("학생들의 점수의 총 합은 %d이고, 평균 값은 %lf입니다.\n", sum, average);
+    // 학생 별 평균 점수 출력 함수 호출
+    printStudentAverage(studentScores, studentNames);
 
-    printRanks(scores);
+    // 과목 별 평균 점수 출력 함수 호출
+    printSubjectAverage(studentScores, subjectNames);
 
+    printf("프로그램을 종료합니다. ");
     return 0;
 }
