@@ -1,7 +1,12 @@
 #include <stdio.h>
 #define STUDENTS 5 //학생 5명으로 정의 
 
-void classifyStudents(int scores[], char targetGrade) { //정수형 점수 문자형 성적
+
+
+
+// 배열 인덱스로 접근한걸 모두 포인터로 바꾸기
+
+void classifyStudents(int *scores, char targetGrade) { //정수형 점수 문자형 성적
 	printf("학생 성적 분류: \n");
 	char grade = ' ';
 	for (int i = 0; i < STUDENTS; i++) {
@@ -26,19 +31,19 @@ void classifyStudents(int scores[], char targetGrade) { //정수형 점수 문자형 성�
 		}
 	}
 }
-int sumScores(int scores[]) {
+int sumScores(int *scores) {
 	int sum = 0; 
 	for (int i = 0; i < STUDENTS; i++) {
 		sum += scores[i];
 	}
 	return sum;
 }
-double averageScores(int scores[]) {
+double averageScores(int *scores) {
 	int sum = sumScores(scores);
 	double average = (double)sum / (double)STUDENTS;
 	return average;
 }
-void printRanks(int scores[]) {
+void printRanks(int *scores) {
 	int ranks[STUDENTS];
 	for (int i = 0;  i < STUDENTS; i++) {
 		ranks[i] = 1;
@@ -53,7 +58,7 @@ void printRanks(int scores[]) {
 
 int main() {
 	//학생들의 성적을 저장할 배열 선언하기 
-	int scores[STUDENTS];
+	int *scores[STUDENTS];
 
 	//학생들의 성적 입력 받기 
 	for (int i = 0; i < STUDENTS; i++) { //i가 0부터 시작해서 STUDENTS 즉 5명까지 받음 i는 1씩 증가
